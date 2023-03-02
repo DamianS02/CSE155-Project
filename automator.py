@@ -6,7 +6,7 @@ slow = 10
 class controls:
     def __init__(self):
         pyautogui.PAUSE = 1
-        pyautoguy.FAILSAFE = True
+        pyautogui.FAILSAFE = True
         
     def leftClick(self):
         print("Left Click Heard: ")
@@ -143,3 +143,91 @@ class controls:
                 
             elif transcript == "slower" or transcript == "go slower" or transcript == "slow down":
                 pyautogui.moveRel(slow, 0, duration = 0.25)
+                
+    def moveUpLeft(self, r, source):
+        while true:
+            transcript = ""
+            pyautogui.moveRel(-1 * slow, -1 * slow, duration=0.25)
+            try:
+                audio = r.listen(source)
+                transcript = r.recognize_google(audio).lower()
+                print("I heard: " + transcript)
+                
+            except sr.UnknownValueError:
+                print("I could not understand audio")
+                pass
+            
+            if transcript == "stop":
+                break
+            
+            elif transcript == "faster" or transcript == "quicker" or transcript == "speed up" or transcript == "go faster":
+                pyautogui.moveRel(-1 * fast, -1 * fast, duration = 0.25)
+                
+            elif transcript == "slower" or transcript == "go slower" or transcript == "slow down":
+                pyautogui.moveRel(-1 * slow, -1 * slow, duration = 0.25)
+                
+    def moveUpRight(self, r, source):
+        while true:
+            transcript = ""
+            pyautogui.moveRel(slow, -1 * slow, duration=0.25)
+            try:
+                audio = r.listen(source)
+                transcript = r.recognize_google(audio).lower()
+                print("I heard: " + transcript)
+                
+            except sr.UnknownValueError:
+                print("I could not understand audio")
+                pass
+            
+            if transcript == "stop":
+                break
+            
+            elif transcript == "faster" or transcript == "quicker" or transcript == "speed up" or transcript == "go faster":
+                pyautogui.moveRel(fast, -1 * fast, duration = 0.25)
+                
+            elif transcript == "slower" or transcript == "go slower" or transcript == "slow down":
+                pyautogui.moveRel(slow, -1 * slow, duration = 0.25)
+                
+    def moveDownLeft(self, r, source):
+        while true:
+            transcript = ""
+            pyautogui.moveRel(-1 * slow, slow, duration=0.25)
+            try:
+                audio = r.listen(source)
+                transcript = r.recognize_google(audio).lower()
+                print("I heard: " + transcript)
+                
+            except sr.UnknownValueError:
+                print("I could not understand audio")
+                pass
+            
+            if transcript == "stop":
+                break
+            
+            elif transcript == "faster" or transcript == "quicker" or transcript == "speed up" or transcript == "go faster":
+                pyautogui.moveRel(-1 * fast, fast, duration = 0.25)
+                
+            elif transcript == "slower" or transcript == "go slower" or transcript == "slow down":
+                pyautogui.moveRel(-1 * slow, slow, duration = 0.25)
+                
+    def moveDownRight(self, r, source):
+        while true:
+            transcript = ""
+            pyautogui.moveRel(slow, slow, duration=0.25)
+            try:
+                audio = r.listen(source)
+                transcript = r.recognize_google(audio).lower()
+                print("I heard: " + transcript)
+                
+            except sr.UnknownValueError:
+                print("I could not understand audio")
+                pass
+            
+            if transcript == "stop":
+                break
+            
+            elif transcript == "faster" or transcript == "quicker" or transcript == "speed up" or transcript == "go faster":
+                pyautogui.moveRel(fast, fast, duration = 0.25)
+                
+            elif transcript == "slower" or transcript == "go slower" or transcript == "slow down":
+                pyautogui.moveRel(slow, slow, duration = 0.25)
