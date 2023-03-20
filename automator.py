@@ -25,7 +25,7 @@ class controls:
         pyautogui.click(button='middle')
         
     def scrollUp(self, r, source):
-        while true:
+        while True:
             transcript = ""
             pyautogui.scroll(200)
             try:
@@ -41,7 +41,7 @@ class controls:
                 break
         
     def scrollDown(self, r, source):
-        while true:
+        while True:
             transcript = ""
             pyautogui.scroll(-200)
             try:
@@ -57,7 +57,7 @@ class controls:
                 break
         
     def moveUp(self, r, source):
-        while true:
+        while True:
             transcript = ""
             pyautogui.moveRel(0, -1 * slow, duration=0.25)
             try:
@@ -79,7 +79,7 @@ class controls:
                 pyautogui.moveRel(0, -1 * slow, duration = 0.25)
                 
     def moveDown(self, r, source):
-        while true:
+        while True:
             transcript = ""
             pyautogui.moveRel(0, slow, duration=0.25)
             try:
@@ -101,7 +101,7 @@ class controls:
                 pyautogui.moveRel(0, slow, duration = 0.25)
                 
     def moveLeft(self, r, source):
-        while true:
+        while True:
             transcript = ""
             pyautogui.moveRel(-1 * slow, 0, duration=0.25)
             try:
@@ -123,7 +123,7 @@ class controls:
                 pyautogui.moveRel(-1 * slow, 0, duration = 0.25)
                 
     def moveRight(self, r, source):
-        while true:
+        while True:
             transcript = ""
             pyautogui.moveRel(slow, 0, duration=0.25)
             try:
@@ -145,7 +145,7 @@ class controls:
                 pyautogui.moveRel(slow, 0, duration = 0.25)
                 
     def moveUpLeft(self, r, source):
-        while true:
+        while True:
             transcript = ""
             pyautogui.moveRel(-1 * slow, -1 * slow, duration=0.25)
             try:
@@ -167,7 +167,7 @@ class controls:
                 pyautogui.moveRel(-1 * slow, -1 * slow, duration = 0.25)
                 
     def moveUpRight(self, r, source):
-        while true:
+        while True:
             transcript = ""
             pyautogui.moveRel(slow, -1 * slow, duration=0.25)
             try:
@@ -189,7 +189,7 @@ class controls:
                 pyautogui.moveRel(slow, -1 * slow, duration = 0.25)
                 
     def moveDownLeft(self, r, source):
-        while true:
+        while True:
             transcript = ""
             pyautogui.moveRel(-1 * slow, slow, duration=0.25)
             try:
@@ -211,7 +211,7 @@ class controls:
                 pyautogui.moveRel(-1 * slow, slow, duration = 0.25)
                 
     def moveDownRight(self, r, source):
-        while true:
+        while True:
             transcript = ""
             pyautogui.moveRel(slow, slow, duration=0.25)
             try:
