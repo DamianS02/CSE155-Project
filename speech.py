@@ -2,10 +2,16 @@ import speech_recognition as sr
 import pyautogui
 import automator
 
+# Importing control functions from automator file
 control = automator.controls()
+
+# Applying id to speech recognizer
 r = sr.Recognizer()
+
 print("\n\nThreshold Value Before calibration:" + str(r.energy_threshold))
 
+
+# Listening to computer microphone as source audio
 with sr.Microphone() as source:
     while True:
         try:
@@ -22,8 +28,11 @@ with sr.Microphone() as source:
         print("Heard: " + transcript)
     
         if transcript == "quit app" or transcript == "exit app":
+            print("Exiting application")
             break
         
+
+        # Mouse clicking controls -------------------------------------------------------------------------
         if transcript == "left click" or transcript == "click":
             control.leftClick()
             
@@ -35,13 +44,15 @@ with sr.Microphone() as source:
             
         if transcript == "middle click":
             control.middleClick()
-            
+        
+        # Scrolling controls -------------------------------------------------------------------------------
         if transcript == "scroll up":
             control.scrollUp(r, source)
         
-        if transcrilpt == "scroll down":
+        if transcript == "scroll down":
             control.scrollDown(r, source)
-            
+        
+        # Mouse movement controls ---------------------------------------------------------------------------
         if transcript == "move up" or transcript == "mouse up" or transcript == "up" or transcript == "up mouse" or transcript == "cursor up":
             control.moveUp(r, source)
             
