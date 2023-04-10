@@ -39,7 +39,7 @@ with sr.Microphone() as source:
         if transcript == "scroll up":
             control.scrollUp(r, source)
         
-        if transcrilpt == "scroll down":
+        if transcript == "scroll down":
             control.scrollDown(r, source)
             
         if transcript == "move up" or transcript == "mouse up" or transcript == "up" or transcript == "up mouse" or transcript == "cursor up":
