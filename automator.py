@@ -1,8 +1,9 @@
 import pyautogui
-
+import speech_recognition as sr
 fast = 100
 slow = 10
 
+# Speech recognition controls
 class controls:
     def __init__(self):
         pyautogui.PAUSE = 1
@@ -26,8 +27,9 @@ class controls:
         
     def scrollUp(self, r, source):
         while True:
+            # Performing scroll up controls
             transcript = ""
-            pyautogui.scroll(200)
+            pyautogui.scroll(400)
             try:
                 audio = r.listen(source)
                 transcript = r.recognize_google(audio).lower()
@@ -42,8 +44,9 @@ class controls:
         
     def scrollDown(self, r, source):
         while True:
+            # Performing scroll down controls
             transcript = ""
-            pyautogui.scroll(-200)
+            pyautogui.scroll(-600)
             try:
                 audio = r.listen(source)
                 transcript = r.recognize_google(audio).lower()
@@ -55,7 +58,7 @@ class controls:
             
             if transcript == "stop":
                 break
-        
+    # Mouse movement (up, down, left, right, up-left, up-right, down-left, down-right)
     def moveUp(self, r, source):
         while True:
             transcript = ""
