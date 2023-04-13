@@ -29,7 +29,7 @@ class controls:
         while True:
             # Performing scroll up controls
             transcript = ""
-            pyautogui.scroll(200)
+            pyautogui.scroll(400)
             try:
                 audio = r.listen(source)
                 transcript = r.recognize_google(audio).lower()
@@ -46,7 +46,7 @@ class controls:
         while True:
             # Performing scroll down controls
             transcript = ""
-            pyautogui.scroll(-200)
+            pyautogui.scroll(-600)
             try:
                 audio = r.listen(source)
                 transcript = r.recognize_google(audio).lower()
