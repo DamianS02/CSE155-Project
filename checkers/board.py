@@ -7,8 +7,8 @@ class Board:
     def __init__(self):
         self.board = []
         self.selected_piece = None
-        self.red_left = self.white_left = 12
-        self.red_kings = self.white_kings = 0
+        self.blue_left = self.white_left = 12
+        self.blue_kings = self.white_kings = 0
         self.create_board()
 
     def draw_squares(self, win):
@@ -18,6 +18,25 @@ class Board:
             for col in range (row % 2, ROW, 2):
                 #defines where to draw squares, what color, and how big
                 pygame.draw.rect(win, BLUE, (row * SQUARE_SIZE, col * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
+
+    # ----------------MOVING PIECES----------------
+    def move(self, piece, row, col):
+        #moving selected piece to desired place by swapping indices
+        self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
+        piece.move(row,col)
+        #pieces become king by moving to opposite side of board (row 0 or row 7)
+        if row == ROW or row == 0:
+            piece.make_king()
+            if piece.color == WHITE:
+                self.white_kings += 1
+            else:
+                self.blue_kings += 1
+
+    def get_piece(self, row, col):
+        return self.board[row][col]
+
+
+
 
     #sets up pieces on board when created
     def create_board(self):
@@ -30,7 +49,7 @@ class Board:
                     elif row > 4:
                         self.board[row].append(Piece(row, col, BLUE))
                     else:
-                        self.board[row].append(0) #no piece in square if it is not in the reqired rows
+                        self.board[row].append(0) #no pieces in rows 3 or 4
                 else:
                     self.board[row].append(0)
     

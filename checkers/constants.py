@@ -10,7 +10,9 @@ BLUE = (56, 152, 255) #instead of red on checker board
 WHITE = (255, 255, 255) #normal color for checker squares
 BLACK = (0, 0, 0) #checker color of opposing player
 YELLOW = (255, 220, 0) #color of potential moveset
-GREY = (128, 128, 128)
+GREY = (208, 208, 208) #color of checker piece outline
+
+CROWN = pygame.transform.scale(pygame.image.load('assets/crown.png'), (41.4, 23)) #import crown image with adjusted width and height
 
 #color scheme: white, black, light blue, yellow
 #light blue: #3898FF
