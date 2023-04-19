@@ -13,7 +13,7 @@ YELLOW = (255, 220, 0) #color of potential moveset
 GREY = (208, 208, 208) #color of checker piece outline
 
 CROWN = pygame.transform.scale(pygame.image.load('assets/crown.png'), (41.4, 23)) #import crown image with adjusted width and height
-
+OVERLAY = pygame.transform.scale(pygame.image.load('assets/Checker_Board_Numbers.png'), (600, 600)) #import number image for top of board
 #color scheme: white, black, light blue, yellow
 #light blue: #3898FF
 #yellow: #FFDC00

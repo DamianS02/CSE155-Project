@@ -1,6 +1,7 @@
 #main file for rendering and drawing checkers
 import pygame
-from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE
+from checkers.game import Game
+from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE, OVERLAY, BLUE
 from checkers.board import Board
 FPS = 60
 
@@ -18,10 +19,15 @@ def get_row_col_from_mouse(pos):
 def main():
     run = True
     clock = pygame.time.Clock()
-    board = Board() #creates board
+    game = Game(WIN)
+    # board = Board() #creates board
     #event loop
     while run:
         clock.tick(FPS) #sets game to run at 60 frames per second
+
+        if game.winner() != None:
+            print("THE WINNER IS: " + game.winner())
+
         for event in pygame.event.get(): #checks if event is triggered
             if event.type == pygame.QUIT:
                 run = False #ends game
@@ -29,11 +35,11 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 row, col = get_row_col_from_mouse(pos)
-                piece = board.get_piece(row, col)
-                board.move(piece, 4, 3)
+                game.select(row, col)
+                # piece = board.get_piece(row, col)
+                # board.move(piece, 4, 3)
 
-        board.draw(WIN)
-        pygame.display.update()
+        game.update()
     pygame.quit()
 
 main()
