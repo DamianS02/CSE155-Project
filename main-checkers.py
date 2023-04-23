@@ -1,8 +1,10 @@
-#main file for rendering and drawing checkers
+#main file for starting checkers game
 import pygame
+from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE, OVERLAY, BLUE, WHITE
 from checkers.game import Game
-from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE, OVERLAY, BLUE
-from checkers.board import Board
+#from checkers.board import Board
+#import audio.speech
+from minimax.algorithm import minimax
 FPS = 60
 
 #set up display
@@ -25,12 +27,24 @@ def main():
     while run:
         clock.tick(FPS) #sets game to run at 60 frames per second
 
+        if game.turn == WHITE:
+            value, new_board = minimax(game.get_board(), 2, WHITE, game)
+            game.ai_move(new_board)
+
         if game.winner() != None:
-            print("THE WINNER IS: " + game.winner())
+            print(game.winner())
+            run = False
 
         for event in pygame.event.get(): #checks if event is triggered
             if event.type == pygame.QUIT:
                 run = False #ends game
+            
+            #if it is blue player's turn, run audio selection
+            # if game.turn == BLUE:
+            #     row, col = audio.speech.vocalize()
+            #     game.select_blue(row, col)
+            # else:
+
             #run event if mouse is clicked
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()

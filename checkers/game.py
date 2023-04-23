@@ -1,7 +1,8 @@
 #handling the game, whose turn, which piece moves etc.
 import pygame
+#import audio.speech
 from .constants import BLUE, WHITE, YELLOW, SQUARE_SIZE
-from .board import Board
+from checkers.board import Board
 class Game:
     def __init__(self, win):
         self._init()
@@ -9,7 +10,6 @@ class Game:
 
     def update(self):
         self.board.draw(self.win)
-        #--------------------------
         self.draw_valid_moves(self.valid_moves)
         pygame.display.update()
 
@@ -17,13 +17,16 @@ class Game:
         #what piece is selected
         self.selected = None
         self.board = Board()
+        print("Board initialized.")
         #blue goes first
         self.turn = BLUE
         #shows current valid moves
-        self.valid_moves = {}     
+        self.valid_moves = {} 
 
     def winner(self):
+        # if self.board != None:
         return self.board.winner()
+        # return None
     
     def reset(self):
         self._init()
@@ -38,7 +41,6 @@ class Game:
                 self.selected = None
                 #reset selection
                 self.select(row, col)
-        
         #if no empty square is selected and it's your turn
         piece = self.board.get_piece(row, col)
         if piece != 0 and piece.color == self.turn:
@@ -46,10 +48,30 @@ class Game:
             self.valid_moves = self.board.get_valid_moves(piece)
             return True
         return False
+    
+    #-------------------------------------------STUFF FOR AUDIO CONTROLLED MOVEMENT-------------------------------------------#
+    # def select_blue(self, row, col):
+    #     #recursive loop for piece selection
+    #     if self.selected:
+    #         #try to move piece
+    #         result = self._move(row, col)
+    #         #if piece cannot move to selected square
+    #         if not result:
+    #             self.selected = None
+    #             #reset selection
+    #             row, col = audio.speech.vocalize()
+    #             self.select_blue(row, col)
+    #     #if no empty square is selected and it's your turn
+    #     piece = self.board.get_piece(row, col)
+    #     if piece != 0 and piece.color == self.turn:
+    #         self.selected = piece
+    #         self.valid_moves = self.board.get_valid_moves(piece)
+    #         return True
+    #     return False
 
     def _move(self, row, col):
         piece = self.board.get_piece(row, col)
-        #if selected checker is moving to an empty square and move is valid
+        #if selected checker is moving to an empty square or move is just valid
         if self.selected and piece == 0 and (row, col) in self.valid_moves:
             self.board.move(self.selected, row, col)
             skipped = self.valid_moves[(row, col)]
@@ -72,4 +94,12 @@ class Game:
             self.turn = WHITE
         else:
             self.turn = BLUE
+    
+    def get_board(self):
+        return self.board
+    
+    #returns new board after ai moves
+    def ai_move(self, board):
+        self.board = board
+        self.change_turn()
 

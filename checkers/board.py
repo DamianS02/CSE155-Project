@@ -6,7 +6,6 @@ from .piece import Piece
 class Board:
     def __init__(self):
         self.board = []
-        self.selected_piece = None
         self.blue_left = self.white_left = 12
         self.blue_kings = self.white_kings = 0
         self.create_board()
@@ -15,11 +14,22 @@ class Board:
         win.fill(BLACK)
         #drawing checkerboard pattern
         for row in range(ROW):
-            for col in range (row % 2, ROW, 2):
+            for col in range (row % 2, COLS, 2):
                 #defines where to draw squares, what color, and how big
                 pygame.draw.rect(win, BLUE, (row * SQUARE_SIZE, col * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
         win.blit(OVERLAY,(0,0))
 
+    def evaluate(self):
+        return self.white_left - self.blue_left + (self.white_kings * 0.5 - self.blue_kings * 0.5)
+    
+    def get_all_pieces(self, color):
+        pieces = []
+        for row in self.board:
+            for piece in row:
+                if piece != 0 and piece.color == color:
+                    pieces.append(piece)
+        return pieces
+    
     # ----------------MOVING PIECES----------------
     def move(self, piece, row, col):
         #moving selected piece to desired place by swapping indices
@@ -74,7 +84,7 @@ class Board:
     def winner(self):
         if self.blue_left <= 0:
             return WHITE
-        if self.white_left <= 0:
+        elif self.white_left <= 0:
             return BLUE
         return None
 
