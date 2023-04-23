@@ -7,26 +7,27 @@ class Game:
     def __init__(self, win):
         self._init()
         self.win = win
+        self.board = Board()
+        print("Board initialized.")
 
     def update(self):
-        self.board.draw(self.win)
+        if(self.board != None):
+            self.board.draw(self.win)
         self.draw_valid_moves(self.valid_moves)
         pygame.display.update()
 
     def _init(self):
         #what piece is selected
         self.selected = None
-        self.board = Board()
-        print("Board initialized.")
+        #self.board = Board()
+        #print("Board initialized.")
         #blue goes first
         self.turn = BLUE
         #shows current valid moves
         self.valid_moves = {} 
 
     def winner(self):
-        # if self.board != None:
         return self.board.winner()
-        # return None
     
     def reset(self):
         self._init()
