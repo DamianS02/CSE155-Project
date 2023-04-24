@@ -1,9 +1,11 @@
 import speech_recognition as sr
 import pyautogui
-import audio.automator as automator
+#import audio.automator
 import re
+import pygame
 
-control = automator.controls() #automation may no longer be needed, but I'm keeping it in for now just in case
+
+#control = automator.controls() #automation may no longer be needed, but I'm keeping it in for now just in case
 r = sr.Recognizer()
 print("\n\nThreshold Value Before calibration:" + str(r.energy_threshold)) 
 
@@ -19,13 +21,13 @@ board = [['a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1'], #board is a 2D array 
 
 keyWords = ["up right", "up left", "down right", "down left", "cancel", "stop program"] #list of keywords to be recognized, if we want to add more keywords, we can just add them to this list
 
-def vocalize():
+def vocal_select():
     with sr.Microphone() as source:
         while True:
             try:
                 audio = r.adjust_for_ambient_noise(source)
                 print("Adjusted Threshhold: " + str(r.energy_threshold))
-                print("Pick a checker piece: ")
+                print("Enter a piece to select: ")
                 audio = r.listen(source)
                 transcript = r.recognize_google(audio).lower()
                 if transcript == "Asics" or transcript == "asics" or transcript == "86": #hardcoded similar sounding words
@@ -38,71 +40,58 @@ def vocalize():
                 print("Audio Could not be understood, please try again")
                 continue
             
-            row = 0
-            col = 0
-            #prints the transcript, this is mostly for us to know what the computer is hearing
-            print("Heard: " + transcript) 
-
-            for i, row in enumerate(board):
-                for j, square in enumerate(row):
-                    if square == transcript:
-                        print("The index of", transcript, "is", i, j)
-                        row = i
-                        col = j
-                        break
+            print("Heard: " + transcript) #prints the transcript, this is mostly for us to know what the computer is hearing
+                
+            for row_idx, rows in enumerate(board):
+                    if transcript in rows:
+                        col_idx = rows.index(transcript)
+                        #prints the position of the square in the board
+                        print(f"{transcript} is at position ({row_idx}, {col_idx}) in the board.")
+                        return row_idx, col_idx
                     else:
-                        continue
+                        #Basically a loading message
+                        print("Spoken text not found in board.")
+
+def vocal_move():
+    with sr.Microphone() as source:
+        while True:
+            try:
+                audio = r.adjust_for_ambient_noise(source)
+                #audio adjusted for ambinent noise
+                print("Adjusted Threshhold: " + str(r.energy_threshold))
+                print("Make a move: ")
+                audio = r.listen(source)
+                transcript = r.recognize_google(audio).lower()
+                
+                if(transcript == "uplift"): #hardcoded similar sounding words
+                    transcript = "up left"
+                if(transcript == "upright"):
+                    transcript = "up right"
+                
+                if transcript in keyWords:
+                    print(f"You entered: {transcript}")
+                    if transcript == "up left" or transcript == "movement 1":
+                        if(transcript == "up left"):
+                            print("Moving up left")
+                        return 0                    
+                    elif transcript == "up right" or transcript == "movement 2":
+                        if(transcript == "up right"):
+                            print("Moving up right")
+                        return 1
+                    elif transcript == "down right" or transcript == "movement 3":
+                        if(transcript == "down right"):
+                            print("Moving down right")
+                        return 2
+                    elif transcript == "down left" or transcript == "movement 4":
+                        if(transcript == "down left"):
+                            print("Moving down left")
+                        return 3
+                    elif transcript == "stop program":
+                        print("Stopping program")
+                        pygame.quit()
+                        break
                 else:
-                    print(transcript, " not found on board")
-            return row, col
-
-
-
-
-            # for row_idx, row in enumerate(board):
-            #         if transcript in row:
-            #             col_idx = row.index(transcript)
-            #             print(f"{transcript} is at position ({row_idx}, {col_idx}) in the board.") #prints the position of the square in the board, this is mostly for us to know what the computer is hearing
-            #             print("Listening for your move: ") 
-            #             while True:
-            #                 try:
-            #                     audio = r.adjust_for_ambient_noise(source) 
-            #                     print("Adjusted Threshhold: " + str(r.energy_threshold)) #this is to let us know that the audio has been adjusted according to the ambient noise
-            #                     audio = r.listen(source)
-            #                     transcript = r.recognize_google(audio).lower()
-                                
-            #                     if(transcript == "uplift"): #hardcoded similar sounding words
-            #                         transcript = "up left"
-            #                     if(transcript == "upright"):
-            #                         transcript = "up right"
-                                
-            #                     if transcript in keyWords:
-            #                         print(f"You entered: {transcript}") #From here, We need to connect the commands to the game itself
-            #                         if transcript == "up right":
-            #                             print("Moving up right") #this is just a test to see if the program is working, we can replace these with the actual commands
-            #                             #Function calls to move the selected piece to the desired position
-            #                             #You can make it so that it moves the piece +1 in the x direction and +1 in the y direction
-            #                             #I assume that the checkers board would have something to hold position data, so you can just use that to move the piece of course.
-            #                             break
-            #                         elif transcript == "up left":
-            #                             print("Moving up left")
-            #                             break
-            #                         elif transcript == "down right":
-            #                             print("Moving down right")
-            #                             break
-            #                         elif transcript == "down left":
-            #                             print("Moving down left")
-            #                             break
-            #                         elif transcript == "cancel": #cancel should just cancel the chosen peice, allowing you to choose another
-            #                             print("Cancelling move")
-            #                             break
-            #                         elif transcript == "stop program": #saying this will just end the game, maybe we can add a "are you sure?" prompt
-            #                             print("Stopping program")
-            #                             exit()
-            #                     else:
-            #                         print("Invalid move, please try again: ")
-                                    
-            #                 except Exception as e:
-            #                     print("Audio could not be understood, please try again")
-            #         else:
-            #             print("Spoken text not found in board.") #the program spits this out a lot, but it's not a problem, can just be considered a "loading..." message its going through the words I assume
+                    print("Invalid move, please try again: ")
+                    
+            except Exception as e:
+                print("Audio could not be understood, please try again")

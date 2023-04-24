@@ -2,7 +2,7 @@
 import pygame
 
 #checker board dimensions 
-WIDTH, HEIGHT = 600, 600
+WIDTH, HEIGHT = 800, 800
 ROW, COLS = 8, 8
 SQUARE_SIZE = WIDTH//COLS
 
@@ -13,7 +13,7 @@ YELLOW = (255, 220, 0) #color of potential moveset
 GREY = (208, 208, 208) #color of checker piece outline
 
 CROWN = pygame.transform.scale(pygame.image.load('assets/crown.png'), (54, 30)) #import crown image with adjusted width and height
-OVERLAY = pygame.transform.scale(pygame.image.load('assets/Checker_Board_Overlay_Edit.png'), (600, 600)) #import number image for top of board
+OVERLAY = pygame.transform.scale(pygame.image.load('assets/Checker_Board_Overlay_Edit.png'), (800, 800)) #import number image for top of board
 #color scheme: white, black, light blue, yellow
 #light blue: #3898FF
 #yellow: #FFDC00

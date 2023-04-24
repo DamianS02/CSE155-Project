@@ -1,6 +1,6 @@
 #handling the game, whose turn, which piece moves etc.
 import pygame
-#import audio.speech
+import audio.speech
 from .constants import BLUE, WHITE, YELLOW, SQUARE_SIZE
 from checkers.board import Board
 class Game:
@@ -19,12 +19,11 @@ class Game:
     def _init(self):
         #what piece is selected
         self.selected = None
-        #self.board = Board()
-        #print("Board initialized.")
         #blue goes first
         self.turn = BLUE
         #shows current valid moves
         self.valid_moves = {} 
+        self.moveset = {}
 
     def winner(self):
         return self.board.winner()
@@ -40,8 +39,50 @@ class Game:
             #if piece cannot move to selected square
             if not result:
                 self.selected = None
-                #reset selection
+                #----reseting selection----
+                action = audio.speech.vocal_move() #get action (left, right, etc.)
+                row, col = self.get_action(action) #get row,col according to action
                 self.select(row, col)
+        #if no empty square is selected and it's your turn
+        piece = self.board.get_piece(row, col)
+        if piece != 0 and piece.color == self.turn:
+            self.selected = piece
+            self.valid_moves = self.board.get_valid_moves(piece)
+            self.moveset = self.copy_moveset()
+            #print(self.moveset)
+            return True
+        return False
+    
+    def copy_moveset(self):
+        moveset = self.valid_moves
+        count = 0
+        for move in moveset:
+            moveset[move] = count
+            count = count + 1
+        return moveset
+    
+    def get_action(self, action):
+        # Access key using element EXAMPLE
+        action = 2
+        for position, move in self.moveset:
+                if move == action:
+                    print("The position for action", action, "is", position)
+                    break
+            #return position as (row, col)
+        return position
+    
+    #-------------------------------------------STUFF FOR AUDIO CONTROLLED MOVEMENT-------------------------------------------#
+    def select_blue(self, row, col):
+        #recursive loop for piece selection
+        if self.selected:
+            #try to move piece
+            result = self._move(row, col)
+            #if piece cannot move to selected square
+            if not result:
+                self.selected = None
+                #reset selection
+                row, col = audio.speech.vocalize()
+                self.select_blue(row, col)
         #if no empty square is selected and it's your turn
         piece = self.board.get_piece(row, col)
         if piece != 0 and piece.color == self.turn:
@@ -49,26 +90,6 @@ class Game:
             self.valid_moves = self.board.get_valid_moves(piece)
             return True
         return False
-    
-    #-------------------------------------------STUFF FOR AUDIO CONTROLLED MOVEMENT-------------------------------------------#
-    # def select_blue(self, row, col):
-    #     #recursive loop for piece selection
-    #     if self.selected:
-    #         #try to move piece
-    #         result = self._move(row, col)
-    #         #if piece cannot move to selected square
-    #         if not result:
-    #             self.selected = None
-    #             #reset selection
-    #             row, col = audio.speech.vocalize()
-    #             self.select_blue(row, col)
-    #     #if no empty square is selected and it's your turn
-    #     piece = self.board.get_piece(row, col)
-    #     if piece != 0 and piece.color == self.turn:
-    #         self.selected = piece
-    #         self.valid_moves = self.board.get_valid_moves(piece)
-    #         return True
-    #     return False
 
     def _move(self, row, col):
         piece = self.board.get_piece(row, col)
