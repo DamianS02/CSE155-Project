@@ -35,6 +35,7 @@ class Game:
 
 
     def select(self, row, col):
+        pieceSelected = False
         #recursive loop for piece selection
         if self.selected:
             #try to move piece
@@ -73,25 +74,7 @@ class Game:
             #return position as (row, col)
         return position
     
-    #-------------------------------------------STUFF FOR AUDIO CONTROLLED MOVEMENT-------------------------------------------#
-    def select_blue(self, row, col):
-        #recursive loop for piece selection
-        if self.selected:
-            #try to move piece
-            result = self._move(row, col)
-            #if piece cannot move to selected square
-            if not result:
-                self.selected = None
-                #reset selection
-                row, col = audio.speech.vocalize()
-                self.select_blue(row, col)
-        #if no empty square is selected and it's your turn
-        piece = self.board.get_piece(row, col)
-        if piece != 0 and piece.color == self.turn:
-            self.selected = piece
-            self.valid_moves = self.board.get_valid_moves(piece)
-            return True
-        return False
+
 
     def _move(self, row, col):
         piece = self.board.get_piece(row, col)
