@@ -1,19 +1,16 @@
 #main file for starting checkers game
 import pygame
-from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE, OVERLAY, BLUE, WHITE
+from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE, BLUE, WHITE
 from checkers.game import Game
-#from checkers.board import Board
 import audio.speech
-import threading
 from minimax.algorithm import minimax
-import speech_recognition as sr
 FPS = 60
 
 #set up display
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Vocal Checkers')
 
-#------------------------PIECE SELECTION FINDER------------------------
+
 def get_row_col_from_mouse(pos):
     x, y = pos
     row = y // SQUARE_SIZE

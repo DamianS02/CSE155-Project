@@ -46,9 +46,6 @@ class Board:
     def get_piece(self, row, col):
         return self.board[row][col]
 
-
-
-
     #sets up pieces on board when created
     def create_board(self):
         for row in range(ROW):
