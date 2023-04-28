@@ -1,8 +1,10 @@
 #handling the game, whose turn, which piece moves etc.
 import pygame
+import speech_recognition as sr
 import audio.speech
 from .constants import BLUE, WHITE, YELLOW, SQUARE_SIZE
 from checkers.board import Board
+
 class Game:
     def __init__(self, win):
         self._init()
@@ -31,6 +33,7 @@ class Game:
     def reset(self):
         self._init()
 
+
     def select(self, row, col):
         #recursive loop for piece selection
         if self.selected:
@@ -40,8 +43,7 @@ class Game:
             if not result:
                 self.selected = None
                 #----reseting selection----
-                action = audio.speech.vocal_move() #get action (left, right, etc.)
-                row, col = self.get_action(action) #get row,col according to action
+                row, col = audio.speech.get_move(self)
                 self.select(row, col)
         #if no empty square is selected and it's your turn
         piece = self.board.get_piece(row, col)
