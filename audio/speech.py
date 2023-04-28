@@ -1,29 +1,33 @@
 import speech_recognition as sr
+import pygame
+import sys
+
 
 def get_move(game):
     r = sr.Recognizer()
-    # set sample rate to 48000 for faster audio processing
-    mic = sr.Microphone(device_index=0, sample_rate=48000)
-    # reducing chunk size for faster audio processing
-    mic.CHUNK = 512
+    # set sample rate to 48000 and chunk size to 512 for faster audio processing
+    mic = sr.Microphone(device_index=0, sample_rate=48000, chunk_size=512)
     with mic as source:
-        while True:
-            game.update()
-            try:
-                audio = r.adjust_for_ambient_noise(source)
-                # print("Adjusted Threshhold: " + str(r.energy_threshold))
-                print("Say the name of the square you want to select (e.g. a1):")
-                audio = r.listen(source)
-                transcript = r.recognize_google(audio).lower()
-                #hardcoded similar sounding words
-                # if transcript == "Asics" or transcript == "asics" or transcript == "86":
-                #     transcript = "a6"
-                # if transcript == "Before" or transcript == "before":
-                #     transcript = "b4"
-                transcript = transcript[0:2]
-                if len(transcript) == 2 and transcript[0] in "abcdefgh" and transcript[1] in "12345678":
-                    row = int(transcript[1]) - 1
-                    col = ord(transcript[0]) - ord('a')
-                    return row, col
-            except:
-                print("Could not understand audio. Please try again.")
+        r.adjust_for_ambient_noise(source)
+    while True:
+        game.update()
+        try:
+            with sr.Microphone(device_index=0, sample_rate=48000, chunk_size=512) as source:
+                audio = r.listen(source, timeout=5)
+            transcript = r.recognize_google(audio).lower()
+            if transcript == "quit":
+                pygame.quit()
+                sys.exit()
+            transcript = transcript[0:2]
+            if len(transcript) == 2 and transcript[0] in "abcdefgh" and transcript[1] in "12345678":
+                row = int(transcript[1]) - 1
+                col = ord(transcript[0]) - ord('a')
+                print("Row: ", row, " Column: ", col)
+                return row, col
+        except sr.UnknownValueError:
+            print("Could not understand audio. Please try again.")
+        except sr.RequestError as e:
+            print(f"Could not request results from Google Speech Recognition service; {e}") 
+        except sr.WaitTimeoutError:
+            print("No audio input received. Please try again.")
+

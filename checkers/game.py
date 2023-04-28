@@ -88,7 +88,7 @@ class Game:
         else:
             return False
         return True
-    
+
     #draws a circle where piece can move
     def draw_valid_moves(self, moves):
         for move in moves:
