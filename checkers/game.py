@@ -25,7 +25,7 @@ class Game:
         self.turn = BLUE
         #shows current valid moves
         self.valid_moves = {} 
-        self.moveset = {}
+        #self.moveset = {}
 
     def winner(self):
         return self.board.winner()
@@ -51,28 +51,28 @@ class Game:
         if piece != 0 and piece.color == self.turn:
             self.selected = piece
             self.valid_moves = self.board.get_valid_moves(piece)
-            self.moveset = self.copy_moveset()
+            #self.moveset = self.copy_moveset()
             #print(self.moveset)
             return True
         return False
     
-    def copy_moveset(self):
-        moveset = self.valid_moves
-        count = 0
-        for move in moveset:
-            moveset[move] = count
-            count = count + 1
-        return moveset
+    # def copy_moveset(self):
+    #     moveset = self.valid_moves
+    #     count = 0
+    #     for move in moveset:
+    #         moveset[move] = count
+    #         count = count + 1
+    #     return moveset
     
-    def get_action(self, action):
-        # Access key using element EXAMPLE
-        action = 2
-        for position, move in self.moveset:
-                if move == action:
-                    print("The position for action", action, "is", position)
-                    break
-            #return position as (row, col)
-        return position
+    # def get_action(self, action):
+    #     # Access key using element EXAMPLE
+    #     action = 2
+    #     for position, move in self.moveset:
+    #             if move == action:
+    #                 print("The position for action", action, "is", position)
+    #                 break
+    #         #return position as (row, col)
+    #     return position
     
 
 
